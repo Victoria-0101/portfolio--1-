@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Victoria Odunmorayo Ojo | Portfolio</title>
+<meta name="description" content="Portfolio of Victoria Odunmorayo Ojo, Computer Engineering background, based in Lagos, Nigeria.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0b1b33;          /* dark blue text */
+    --ink-soft: #46546b;     /* secondary text */
+    --bg: #ffffff;
+    --bg-soft: #f5f7fa;
+    --line: #e3e8ef;
+    --accent: #0e7c86;       /* the one accent colour: change here to restyle everything */
+    --accent-dark: #0a5f67;
+    --radius: 14px;
+    --max: 1080px;
+    --font: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, video { max-width: 100%; display: block; }
+  a { color: inherit; }
+  section[id] { scroll-margin-top: 76px; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { width: min(var(--max), 100% - 2.5rem); margin-inline: auto; }
+  .section { padding: 5.5rem 0; }
+  .section.soft { background: var(--bg-soft); }
+  h1, h2, h3 { line-height: 1.15; margin: 0; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); font-weight: 800; margin-bottom: 0.75rem; }
+  .section-intro { color: var(--ink-soft); max-width: 60ch; margin: 0 0 2.5rem; }
+  .placeholder-text { color: var(--ink-soft); font-style: italic; }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.97rem;
+    text-decoration: none;
+    border: 2px solid var(--accent);
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  .btn-outline { background: transparent; color: var(--accent-dark); }
+  .btn-outline:hover { background: var(--accent); color: #fff; }
+
+  /* Navbar */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { font-weight: 800; text-decoration: none; letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { text-decoration: none; font-weight: 600; font-size: 0.95rem; color: var(--ink-soft); }
+  .nav-links a:hover { color: var(--accent-dark); }
+  .nav-toggle {
+    display: none; background: none; border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.45rem 0.8rem; font: inherit; font-weight: 700; color: var(--ink); cursor: pointer;
+  }
+  @media (max-width: 760px) {
+    .nav-toggle { display: block; }
+    .nav-links {
+      display: none; position: absolute; top: 64px; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { display: block; padding: 0.95rem 1.25rem; font-size: 1rem; }
+  }
+
+  /* Hero */
+  .hero { padding: 6rem 0 5.5rem; }
+  .hero h1 { font-size: clamp(2.3rem, 6vw, 3.9rem); font-weight: 800; max-width: 16ch; }
+  .hero .subtitle { font-size: 1.25rem; font-weight: 600; color: var(--accent-dark); margin: 1rem 0 1.5rem; }
+  .hero p.intro { max-width: 58ch; color: var(--ink-soft); font-size: 1.1rem; margin: 0 0 2.2rem; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  /* About */
+  .about-text { max-width: 64ch; }
+  .about-text p { margin: 0 0 1rem; color: var(--ink-soft); }
+  .about-text p:first-of-type { color: var(--ink); }
+
+  /* Skills */
+  .skills-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .skill-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.3rem 1.4rem; border-top: 3px solid var(--accent); }
+  .skill-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .skill-card p { margin: 0; font-size: 0.94rem; color: var(--ink-soft); line-height: 1.55; }
+
+  /* Projects: the featured section */
+  .projects { display: grid; gap: 2rem; }
+  .project-card {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(11, 27, 51, 0.06);
+  }
+  .project-media { display: flex; flex-direction: column; background: #eef2f6; min-height: 320px; }
+  .media-stage { position: relative; flex: 1; min-height: 320px; }
+  .media-stage img, .media-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #0b1b33; }
+  .thumbs { display: flex; gap: 0.5rem; padding: 0.6rem; overflow-x: auto; background: #fff; border-top: 1px solid var(--line); }
+  .thumb {
+    flex: 0 0 auto; width: 88px; height: 58px; padding: 0; overflow: hidden; cursor: pointer;
+    border: 2px solid transparent; border-radius: 8px; background: #0b1b33; color: #fff;
+    font: inherit; font-size: 0.8rem; font-weight: 700;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb[aria-current="true"] { border-color: var(--accent); }
+  .media-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem;
+    text-align: center; padding: 1rem;
+    background: repeating-linear-gradient(135deg, #f1f5f9, #f1f5f9 14px, #e9eef4 14px, #e9eef4 28px);
+    color: var(--ink-soft);
+  }
+  .media-placeholder strong { font-size: 1.05rem; color: var(--accent-dark); letter-spacing: 0.02em; }
+  .media-placeholder span { font-size: 0.85rem; }
+  .project-body { padding: 2rem 2rem 2.2rem; display: flex; flex-direction: column; }
+  .project-body h3 { font-size: 1.6rem; font-weight: 800; }
+  .project-role { color: var(--accent-dark); font-weight: 700; margin: 0.35rem 0 1.2rem; }
+  .project-body dl { margin: 0 0 1rem; }
+  .project-body dt { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .project-body dd { margin: 0 0 1rem; color: var(--ink-soft); font-size: 0.97rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0; list-style: none; }
+  .tags li { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.75rem; font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+  .project-body .btn { align-self: flex-start; margin-top: auto; }
+  @media (max-width: 860px) {
+    .project-card { grid-template-columns: 1fr; }
+    .project-media { min-height: 0; }
+    .media-stage { flex: none; min-height: 0; aspect-ratio: 16 / 10; }
+    .project-body { padding: 1.5rem 1.4rem 1.8rem; }
+  }
+
+  /* Experience */
+  .exp-list { display: grid; gap: 1.25rem; max-width: 720px; }
+  .exp-item { border-left: 3px solid var(--accent); padding: 0.2rem 0 0.2rem 1.2rem; }
+  .exp-item h3 { font-size: 1.1rem; }
+  .exp-item .meta { color: var(--ink-soft); font-size: 0.92rem; margin: 0.15rem 0 0.4rem; }
+  .exp-item p { margin: 0; color: var(--ink-soft); }
+  .exp-empty { border: 2px dashed var(--line); border-radius: var(--radius); padding: 1.5rem; max-width: 720px; }
+
+  /* Contact */
+  .contact-details { margin: 0 0 1.8rem; font-size: 1.05rem; }
+  .contact-details p { margin: 0.2rem 0; }
+  .contact-details .name { font-weight: 800; font-size: 1.2rem; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--line); padding: 1.6rem 0; color: var(--ink-soft); font-size: 0.9rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+
+  @media (max-width: 600px) {
+    .section { padding: 4rem 0; }
+    .hero { padding: 4rem 0 3.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<div id="navbar"></div>
+<main>
+  <div id="hero"></div>
+  <div id="about"></div>
+  <div id="skills"></div>
+  <div id="projects"></div>
+  <div id="experience"></div>
+  <div id="contact"></div>
+</main>
+<div id="footer"></div>
+
+<script>
+/* ============================================================
+   1. EDIT YOUR DETAILS HERE
+   ============================================================ */
+
+const profile = {
+  name: "Victoria Odunmorayo Ojo",
+  title: "Computer Engineering",
+  location: "Lagos, Nigeria",
+  intro:
+    "I am interested in technology, digital operations, website management, AI tools, e-commerce, and creative digital solutions. This portfolio showcases some of the projects and digital work I have explored and worked on.",
+  about: [
+    "I have a background in Computer Engineering and an interest in practical technology. I enjoy learning how digital platforms work and using them to get real things done.",
+    "My work so far has included website management, e-commerce, AI tools and digital content. I like picking up new tools, working through problems step by step, and showing the results in real projects.",
+  ],
+};
+
+const contact = {
+  email: "thoriaodunmorayo@gmail.com",
+  phone: "08136910983",
+};
+
+/* ============================================================
+   2. SKILLS: edit or add cards here
+   ============================================================ */
+
+const skills = [
+  { title: "Website Management",        text: "Keeping website pages and content up to date." },
+  { title: "E-commerce Operations",     text: "Working with online stores, products and listings." },
+  { title: "AI Tools",                  text: "Using AI tools to help solve everyday problems." },
+  { title: "AI Content Creation",       text: "Creating images and videos with AI tools." },
+  { title: "Basic Technology Operations", text: "Day-to-day use and set-up of common technology." },
+  { title: "Digital Problem Solving",   text: "Working through issues step by step and learning as I go." },
+  { title: "Computer Engineering",      text: "Academic background in computer engineering." },
+];
+
+/* ============================================================
+   3. PROJECTS: THE MAIN PLACE TO EDIT
+   ------------------------------------------------------------
+   For each project:
+     images: a LIST of screenshots/pictures (JPG, PNG or WebP). Add as many as you like:
+             ["images/shot-1.jpg", "images/shot-2.png", "images/shot-3.webp"]
+             Several pictures show as a large picture with small clickable thumbnails.
+     image:  a single picture (use this instead of "images" if you only have one)
+     videos: a LIST of MP4 files, if the project has several videos
+             ["videos/promo-1.mp4", "videos/promo-2.mp4"]
+     video:  a single MP4 file, if there is only one   (e.g. "videos/promo.mp4")
+     tools: list of tools     (e.g. ["WordPress", "WooCommerce", "Canva"])
+     description: 1 to 3 sentences about what you did
+     link: full web address (https://...), or "" to hide the button
+
+   HOW TO ADD YOUR FILES:
+     1. Put your pictures in the "images" folder and videos in the "videos" folder
+        (next to this index.html).
+     2. Make sure the file name matches the one written below, or change the name below.
+     3. Until a file exists, a clear [ADD PROJECT IMAGE] / [ADD PROJECT VIDEO]
+        placeholder is shown, so the layout never breaks.
+     If a project has both a video and an image, the image is used as the video's cover.
+
+   TO ADD A NEW PROJECT: copy one { ... }, block, paste it at the end of the list.
+   ============================================================ */
+
+const projects = [
+  {
+    title: "Exceptional Packaging",
+    role: "E-commerce Website Management",
+    tools: ["WooCommerce"],
+    description: "Managed and maintained the Exceptional Packaging e-commerce website, supporting day-to-day digital operations and keeping the online store organized and functional.",
+    // ADD YOUR SCREENSHOTS HERE: website home page, products, store pages, areas you worked on.
+    // Save them in the "images" folder and list each file name. Add or remove lines as needed.
+    images: [
+      "images/exceptional-packaging-1.jpg",
+      "images/exceptional-packaging-2.jpg",
+      "images/exceptional-packaging-3.jpg",
+      "images/exceptional-packaging-4.jpg",
+    ],
+    video: "",
+    link: "",                          // optional: the store's web address, "https://..."
+  },
+  {
+    title: "Cephas Technology",
+    role: "Website Build with AI Tools",
+    tools: ["Lovable"],
+    description: "Built a business website for Cephas Technology, a technology and engineering company, using AI tools.",
+    image: "images/cephas-technology.jpg",
+    video: "",
+    link: "https://cephas-technology.lovable.app/",
+  },
+  {
+    title: "AI Promotional Videos",
+    role: "AI Content Creation",
+    tools: ["AI tools"],               // [ADD TOOL NAMES] e.g. ["Tool 1", "Tool 2"]
+    description: "Created promotional videos using AI tools for brands.",
+    // ADD YOUR VIDEOS HERE: save each MP4 in the "videos" folder and list the file names.
+    // Add or remove lines to match how many videos you have.
+    videos: [
+      "videos/ai-promo-1.mp4",
+      "videos/ai-promo-2.mp4",
+      "videos/ai-promo-3.mp4",
+      "videos/ai-promo-4.mp4",
+      "videos/ai-promo-5.mp4",
+    ],
+    image: "",                         // optional cover picture shown before a video plays
+    link: "",
+  },
+];
+
+/* ============================================================
+   4. EXPERIENCE: add only real experience
+   ------------------------------------------------------------
+   Leave the list empty to show "[Add relevant experience here]".
+   Format:
+     { title: "Your role", org: "Organisation", period: "Dates", text: "What you did" }
+   ============================================================ */
+
+const experience = [
+  {
+    title: "Website Management & E-Commerce",
+    org: "Exceptional Packaging",
+    period: "",                         // optional, e.g. "2024 to present"
+    text: "Manage and update the company\u2019s WordPress/WooCommerce website, including product uploads, content updates, inventory information, order processing and website maintenance.",
+  },
+  {
+    title: "Website Project",
+    org: "Cephas Technology",
+    period: "",                         // optional, e.g. "2024 to present"
+    text: "Built and developed a professional business website for Cephas Technology using AI-powered/no-code website tools. Worked on the website structure, service pages, content, layout and overall user experience.",
+  },
+  {
+    title: "AI Promotional Content",
+    org: "",
+    period: "",                         // optional, e.g. "2024 to present"
+    text: "Create AI-generated promotional videos for businesses, including AI presenter videos, promotional concepts, scripts and short-form social media content for Facebook and Instagram.",
+  },
+];
+
+
+/* ============================================================
+   COMPONENTS (you should not need to edit below this line)
+   ============================================================ */
+
+const $ = (id) => document.getElementById(id);
+const isSet = (v) => typeof v === "string" && v.trim() !== "" && !v.trim().startsWith("[");
+
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k === "text") node.textContent = v;
+    else node.setAttribute(k, v);
+  }
+  for (const c of children.flat()) {
+    if (c == null) continue;
+    node.append(c.nodeType ? c : document.createTextNode(c));
+  }
+  return node;
+}
+
+function sectionShell(id, title, intro, soft) {
+  const section = el("section", { id, class: "section" + (soft ? " soft" : "") });
+  const wrap = el("div", { class: "wrap" }, el("h2", { text: title }));
+  if (intro) wrap.append(el("p", { class: "section-intro", text: intro }));
+  section.append(wrap);
+  return { section, wrap };
+}
+
+/* ---- Navbar ---- */
+function Navbar() {
+  const items = ["Home", "About", "Skills", "Projects", "Experience", "Contact"];
+  const links = el("ul", { class: "nav-links", id: "nav-links" },
+    items.map((name) => {
+      const target = name === "Home" ? "home" : name.toLowerCase();
+      return el("li", {}, el("a", { href: "#" + target, text: name }));
+    })
+  );
+  const toggle = el("button", { class: "nav-toggle", "aria-expanded": "false", "aria-controls": "nav-links", text: "Menu" });
+  toggle.addEventListener("click", () => {
+    const open = links.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+  links.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") {
+      links.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+  return el("header", { class: "nav" },
+    el("div", { class: "wrap nav-inner" },
+      el("a", { class: "brand", href: "#home", text: profile.name }),
+      toggle, links
+    )
+  );
+}
+
+/* ---- Hero ---- */
+function Hero() {
+  return el("section", { id: "home", class: "hero" },
+    el("div", { class: "wrap" },
+      el("h1", { text: profile.name }),
+      el("p", { class: "subtitle", text: profile.title }),
+      el("p", { class: "intro", text: profile.intro }),
+      el("div", { class: "btn-row" },
+        el("a", { class: "btn btn-primary", href: "#projects", text: "View My Projects" }),
+        el("a", { class: "btn btn-outline", href: "#contact", text: "Contact Me" })
+      )
+    )
+  );
+}
+
+/* ---- About ---- */
+function About() {
+  const { section, wrap } = sectionShell("about", "About Me", "", true);
+  wrap.append(el("div", { class: "about-text" }, profile.about.map((t) => el("p", { text: t }))));
+  return section;
+}
+
+/* ---- Skills ---- */
+function Skills() {
+  const { section, wrap } = sectionShell("skills", "Skills", "Areas I work in and am building on.");
+  wrap.append(el("div", { class: "skills-grid" },
+    skills.map((s) => el("div", { class: "skill-card" }, el("h3", { text: s.title }), el("p", { text: s.text })))
+  ));
+  return section;
+}
+
+/* ---- Project card ---- */
+function mediaPlaceholder(kind) {
+  return el("div", { class: "media-placeholder" },
+    el("strong", { text: kind === "video" ? "[ADD PROJECT VIDEO]" : "[ADD PROJECT IMAGE]" }),
+    el("span", { text: "Replace this in the projects list in the code" })
+  );
+}
+
+function loadImage(src) {
+  return new Promise((resolve) => {
+    const i = new Image();
+    i.onload = () => resolve(src);
+    i.onerror = () => resolve(null);
+    i.src = src;
+  });
+}
+function loadVideo(src) {
+  return new Promise((resolve) => {
+    const v = document.createElement("video");
+    v.preload = "metadata";
+    v.onloadedmetadata = () => resolve(src);
+    v.onerror = () => resolve(null);
+    v.src = src;
+  });
+}
+
+function ProjectMedia(p) {
+  const videoList = [p.video].concat(Array.isArray(p.videos) ? p.videos : []).filter(isSet);
+  const hasVideo = videoList.length > 0;
+  const list = (Array.isArray(p.images) ? p.images : []).filter(isSet);
+  if (!hasVideo && isSet(p.image)) list.unshift(p.image);       // single picture
+  const poster = hasVideo && isSet(p.image) ? p.image : null;   // cover for videos
+
+  const stage = el("div", { class: "media-stage" }, mediaPlaceholder(hasVideo ? "video" : "image"));
+  const thumbs = el("div", { class: "thumbs" });
+  const box = el("div", { class: "project-media" }, stage);
+  let current = null;
+  const items = [];
+
+  function show(i) {
+    const item = items[i];
+    if (current) current.remove();
+    if (item.type === "video") {
+      current = el("video", { controls: "", preload: "metadata", playsinline: "", "aria-label": p.title + " video " + (item.n) });
+      if (poster) current.setAttribute("poster", poster);
+    } else {
+      current = el("img", { alt: p.title + " screenshot " + item.n });
+    }
+    current.src = item.src;
+    stage.append(current);
+    [...thumbs.children].forEach((t, n) => t.setAttribute("aria-current", String(n === i)));
+  }
+
+  // Only use files that actually exist, so a missing file never breaks the card.
+  Promise.all([...videoList.map(loadVideo), ...list.map(loadImage)]).then((r) => {
+    let v = 0, im = 0;
+    r.forEach((src, idx) => {
+      if (!src) return;
+      if (idx < videoList.length) items.push({ type: "video", src, n: ++v });
+      else items.push({ type: "image", src, n: ++im });
+    });
+    if (!items.length) return;
+
+    if (items.length > 1) {
+      items.forEach((item, i) => {
+        const b = el("button", { class: "thumb", type: "button", "aria-label": "Show " + item.type + " " + item.n });
+        if (item.type === "video") b.textContent = "Video " + item.n;
+        else { const t = el("img", { alt: "" }); t.src = item.src; b.append(t); }
+        b.addEventListener("click", () => show(i));
+        thumbs.append(b);
+      });
+      box.append(thumbs);
+    }
+    show(0);
+  });
+  return box;
+}
+
+function ProjectCard(p) {
+  const tools = Array.isArray(p.tools) && p.tools.length
+    ? el("ul", { class: "tags" }, p.tools.map((t) => el("li", { text: t })))
+    : el("span", { class: "placeholder-text", text: "[Add tools]" });
+
+  const desc = isSet(p.description)
+    ? el("span", { text: p.description })
+    : el("span", { class: "placeholder-text", text: "[Add project description]" });
+
+  const body = el("div", { class: "project-body" },
+    el("h3", { text: p.title }),
+    el("p", { class: "project-role", text: p.role }),
+    el("dl", {},
+      el("dt", { text: "Tools" }), el("dd", {}, tools),
+      el("dt", { text: "Description" }), el("dd", {}, desc)
+    )
+  );
+  if (isSet(p.link)) {
+    body.append(el("a", { class: "btn btn-outline", href: p.link, target: "_blank", rel: "noopener noreferrer", text: "View Project" }));
+  }
+  return el("article", { class: "project-card" }, ProjectMedia(p), body);
+}
+
+/* ---- Projects gallery ---- */
+function Projects() {
+  const { section, wrap } = sectionShell("projects", "Projects", "Digital work I have explored and worked on.");
+  wrap.append(el("div", { class: "projects" }, projects.map(ProjectCard)));
+  return section;
+}
+
+/* ---- Experience ---- */
+function Experience() {
+  const { section, wrap } = sectionShell("experience", "Experience", "", true);
+  if (!experience.length) {
+    wrap.append(el("div", { class: "exp-empty" }, el("p", { class: "placeholder-text", text: "[Add relevant experience here]" })));
+  } else {
+    wrap.append(el("div", { class: "exp-list" }, experience.map((x) =>
+      el("div", { class: "exp-item" },
+        el("h3", { text: x.title || "" }),
+        [x.org, x.period].filter(Boolean).length ? el("p", { class: "meta", text: [x.org, x.period].filter(Boolean).join(", ") }) : null,
+        x.text ? el("p", { text: x.text }) : null
+      )
+    )));
+  }
+  return section;
+}
+
+/* ---- Contact ---- */
+function Contact() {
+  const { section, wrap } = sectionShell("contact", "Contact", "");
+  const line = (label, value) =>
+    el("p", {}, label + ": ", isSet(value) ? value : el("span", { class: "placeholder-text", text: value }));
+
+  wrap.append(el("div", { class: "contact-details" },
+    el("p", { class: "name", text: profile.name }),
+    el("p", { text: profile.location }),
+    line("Email", contact.email),
+    line("Phone", contact.phone)
+  ));
+
+  const phoneHref = isSet(contact.phone) ? "tel:" + contact.phone.replace(/[^\d+]/g, "") : "#contact";
+  const emailHref = isSet(contact.email) ? "mailto:" + contact.email : "#contact";
+  wrap.append(el("div", { class: "btn-row" },
+    el("a", { class: "btn btn-primary", href: emailHref, text: "Email" }),
+    el("a", { class: "btn btn-outline", href: phoneHref, text: "Contact" })
+  ));
+  return section;
+}
+
+/* ---- Footer ---- */
+function Footer() {
+  return el("footer", {}, el("div", { class: "wrap" },
+    el("span", { text: "© " + new Date().getFullYear() + " " + profile.name }),
+    el("span", { text: profile.location })
+  ));
+}
+
+/* ---- Build the page ---- */
+$("navbar").replaceWith(Navbar());
+$("hero").replaceWith(Hero());
+$("about").replaceWith(About());
+$("skills").replaceWith(Skills());
+$("projects").replaceWith(Projects());
+$("experience").replaceWith(Experience());
+$("contact").replaceWith(Contact());
+$("footer").replaceWith(Footer());
+</script>
+</body>
+</html>
